@@ -1,50 +1,64 @@
-=======================
-python-package-template
-=======================
-This is a template repository that can be used to quickly create a python package project.
+=========================================
+Automation Mojo Interop - Kubernetes
+=========================================
 
-=========================
-Features of this Template
-=========================
-* Machine Setup
-* Virtual Environment Setup (Poetry)
-* PyPi Publishing
+The ``automojo-interop-kubernetes`` package is the Kubernetes interop client for the
+automojo suite. It wraps the official ``kubernetes`` Python client and exists to serve two
+distinct consumers: ``automojo-provisioning`` ``WorkloadVenue`` provisioners (CoreWeave,
+Sunk Slurm-on-K8s, self-hosted clusters) and landscaping packages that enumerate or
+interact with workloads on a cluster.
 
-========================
-How to Use This Template
-========================
-- Click the 'Use this template' button
-- Fill in the information to create your repository
-- Checkout your new repository
-- Change the following in 'repository-config.ini'
-
-  #. 'PROJECT NAME'
-  #. 'REPOSITORY_NAME'
-
-- If you have machine dependencies to add, put them in 'setup-ubuntu-machine'
-- Modify the pyproject.toml file with the correct package-name, author, publishing information, etc.
-- Rename the VSCODE workspace file 'mv workspaces/default-workspace.template workspaces/(project name).template'
-- Replace the README.rst file with your own README
-- Update the LICENSE.txt file with your copyright information and license.
-- Add your dependencies with python poetry 'poetry add (dependency name)'
-- Drop your package code in 'source/packages'
-- Modify the name of your package root in 'pyproject.toml'
-
-  #. 'packages = [{include="(root folder name)", from="source/packages"}]'
-
-=================
-Code Organization
-=================
-* .vscode - Common tasks
-* development - This is where the runtime environment scripts are located
-* repository-setup - Scripts for homing your repository and to your checkout and machine setup
-* userguide - Where you put your user guide
-* source/packages - Put your root folder here 'source/packages/(root-module-folder)'
-* workspaces - This is where you add VSCode workspaces templates and where workspaces show up when homed.
-
-==========
-References
+Highlights
 ==========
 
-- `User Guide <userguide/userguide.rst>`
-- `Coding Standards <userguide/10-00-coding-standards.rst>`
+- ``KubernetesClient`` — the top-level client, constructed from a kubeconfig path, a kubeconfig dict, or an in-cluster service-account context.
+- A workload primitives layer — typed helpers for ``Job``, ``Deployment``, ``StatefulSet``, ``PersistentVolumeClaim``, ``Service``, and ``Ingress``, each exposing ``apply``, ``delete``, ``get``, ``list``, and waiter methods built on ``automojo-waiting``.
+- Consistent typed return objects — every method returns a typed result object (DTOs under ``model/``), not a raw dict.
+- Consistent failure shape — API errors are reclassified into named exceptions (``KubernetesResourceNotFoundError``, ``KubernetesConflictError``, etc.) so callers do not decode ``ApiException`` status codes.
+- All public APIs normalize the underlying client to the automojo ``Aspects`` pattern — callers control timeouts, retries, and logging; no behaviour-modifying decorators.
+
+Repository Structure
+====================
+
+- ``development/`` - Runtime environment scripts.
+- ``repository-setup/`` - Repository homing and setup scripts.
+- ``source/packages/automojo/interop/kubernetes/`` - Package source code.
+- ``source/testroots/testbase/automojo/tests/interop/kubernetes/`` - TestBase test roots.
+- ``specs/`` - Requirements, design, and task documentation (Kiro-style).
+- ``userguide/`` - Standards, conventions, and documentation.
+
+Environment Setup
+=================
+
+When working in a Codex container:
+
+.. code-block:: bash
+
+   ./development/setup-agent-container
+
+For local development:
+
+.. code-block:: bash
+
+   ./repository-setup/rehome-repository
+   ./development/setup-environment
+
+Running Tests
+=============
+
+.. code-block:: bash
+
+   source .venv/bin/activate
+   PYTHONPATH=source/packages:source/testroots/testbase python -m pytest source/testroots -q
+
+Standards and Conventions
+=========================
+
+- Naming conventions: ``userguide/10-02-naming-conventions.rst``
+- Code organization: ``userguide/10-01-code-organization.rst``
+- Coding standards: ``userguide/10-00-coding-standards.rst``
+
+Additional Resources
+====================
+
+- User guide entry point: ``userguide/userguide.rst``
