@@ -17,6 +17,7 @@ import unittest
 from automojo.errors.exceptions import SemanticError
 
 from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+    KubernetesApiError,
     KubernetesConflictError,
     KubernetesResourceNotFoundError,
 )
@@ -29,8 +30,12 @@ from automojo.interop.kubernetes.specs.workloadspecs import (
     StatefulSetSpec,
 )
 from automojo.interop.kubernetes.workload import MANAGED_LABEL_KEY, SPEC_NAME_LABEL_KEY
+from automojo.interop.kubernetes.workload.workloadprimitive import (
+    WorkloadPrimitive,
+)
 
 from automojo.tests.interop.kubernetes.fakeclient import build_fake_client
+from automojo.tests.interop.kubernetes.fakekubernetes import FakeApiException
 
 
 class JobPrimitiveTests(unittest.TestCase):
@@ -240,6 +245,93 @@ class SpecValidationTests(unittest.TestCase):
         spec.storage_request = None
         with self.assertRaises(SemanticError):
             client.pvcs.apply(spec=spec)
+        return
+
+
+class CallSdkExceptionDisciplineTests(unittest.TestCase):
+    """
+        Regression for NR-H3 / NR-H4: ``call_sdk`` and
+        ``get_existing_or_none`` must only reclassify genuine SDK
+        ``ApiException`` instances. ``SemanticError``, ``TypeError`` and
+        other programming-defect errors must bubble untouched.
+    """
+
+    def test_call_sdk_reclassifies_api_exception(self):
+        """
+            A genuine ApiException is reclassified into KubernetesApiError.
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _operation():
+            raise FakeApiException(status=500, reason="boom")
+
+        with self.assertRaises(KubernetesApiError):
+            primitive.call_sdk(_operation, description="op")
+        return
+
+    def test_call_sdk_lets_semantic_error_bubble(self):
+        """
+            A SemanticError must NOT be reclassified by call_sdk.
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _operation():
+            raise SemanticError("misused API")
+
+        with self.assertRaises(SemanticError):
+            primitive.call_sdk(_operation, description="op")
+        return
+
+    def test_call_sdk_lets_type_error_bubble(self):
+        """
+            An ordinary TypeError bug must NOT become a KubernetesApiError.
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _operation():
+            raise TypeError("programming defect")
+
+        with self.assertRaises(TypeError):
+            primitive.call_sdk(_operation, description="op")
+        return
+
+    def test_get_existing_or_none_lets_semantic_error_bubble(self):
+        """
+            get_existing_or_none must not swallow a SemanticError as absent.
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _getter():
+            raise SemanticError("misused API")
+
+        with self.assertRaises(SemanticError):
+            primitive.get_existing_or_none(getter=_getter)
+        return
+
+    def test_get_existing_or_none_lets_type_error_bubble(self):
+        """
+            get_existing_or_none must not turn a TypeError into "absent".
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _getter():
+            raise TypeError("programming defect")
+
+        with self.assertRaises(TypeError):
+            primitive.get_existing_or_none(getter=_getter)
+        return
+
+    def test_get_existing_or_none_returns_none_on_api_not_found(self):
+        """
+            A 404 ApiException is still mapped to None (resource absent).
+        """
+        primitive = WorkloadPrimitive(client=object())
+
+        def _getter():
+            raise FakeApiException(status=404, reason="Not Found")
+
+        result = primitive.get_existing_or_none(getter=_getter)
+        self.assertIsNone(result)
         return
 
 

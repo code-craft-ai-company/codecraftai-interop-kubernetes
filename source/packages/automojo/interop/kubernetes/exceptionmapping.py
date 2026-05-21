@@ -32,6 +32,33 @@ STATUS_TO_EXCEPTION = {
 }
 
 
+def is_api_exception(error: BaseException) -> bool:
+    """
+        Decide whether ``error`` is a ``kubernetes`` SDK ``ApiException``
+        (or a test double that mimics it) and is therefore safe to
+        reclassify into the automojo typed exception hierarchy.
+
+        Anything else — ``SemanticError``, ``TypeError``, ``ValueError`` and
+        other programming-defect errors — must NOT be reclassified; it has
+        to bubble untouched so callers and the audit can see the real fault.
+
+        The check is structural: the SDK ``ApiException`` is identified by a
+        class name ending in ``ApiException`` together with the ``status``
+        attribute it always carries. This avoids a hard import of the SDK
+        at module-import time.
+
+        :param error: The caught exception instance to classify.
+
+        :returns: ``True`` when ``error`` is an SDK API exception.
+    """
+    type_name = type(error).__name__
+    is_named_api_exception = type_name.endswith("ApiException")
+    has_status_attribute = hasattr(error, "status")
+
+    rtnval = is_named_api_exception and has_status_attribute
+    return rtnval
+
+
 def reclassify_api_exception(api_exception: Exception) -> KubernetesApiError:
     """
         Translate a ``kubernetes`` SDK ``ApiException`` into the matching
@@ -76,4 +103,4 @@ def reclassify_api_exception(api_exception: Exception) -> KubernetesApiError:
     return reclassified
 
 
-__all__ = ["reclassify_api_exception", "STATUS_TO_EXCEPTION"]
+__all__ = ["is_api_exception", "reclassify_api_exception", "STATUS_TO_EXCEPTION"]
