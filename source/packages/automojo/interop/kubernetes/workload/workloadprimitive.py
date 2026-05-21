@@ -25,7 +25,10 @@ from automojo.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.exceptionmapping import reclassify_api_exception
+from automojo.interop.kubernetes.exceptionmapping import (
+    is_api_exception,
+    reclassify_api_exception,
+)
 from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesConflictError,
     KubernetesResourceNotFoundError,
@@ -153,6 +156,8 @@ class WorkloadPrimitive:
         try:
             result = operation()
         except Exception as sdk_error:
+            if is_api_exception(sdk_error) is False:
+                raise
             reclassified = reclassify_api_exception(sdk_error)
             raise reclassified from sdk_error
 
@@ -238,6 +243,8 @@ class WorkloadPrimitive:
         except KubernetesResourceNotFoundError:
             return None
         except Exception as sdk_error:
+            if is_api_exception(sdk_error) is False:
+                raise
             reclassified = reclassify_api_exception(sdk_error)
             if isinstance(reclassified, KubernetesResourceNotFoundError):
                 return None
