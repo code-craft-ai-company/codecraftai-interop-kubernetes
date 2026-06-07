@@ -9,7 +9,7 @@ exposes the standard CRUD + wait surface (`apply`, `delete`, `get`, `list`,
 plus type-appropriate waiters) and operates against the `KubernetesClient`
 delivered by `kubernetes-client`.
 
-The primitives are consumed by `automojo-provisioning` `venue-coreweave` and other
+The primitives are consumed by `codecraftai-provisioning` `venue-coreweave` and other
 WorkloadVenues. They are deliberately small wrappers — they do not try to be a
 general-purpose Kubernetes ORM.
 
@@ -74,9 +74,9 @@ reach a usable state, so I can verify the apply succeeded.
 #### Acceptance Criteria
 
 1. WHEN `apply(...)` is called THE SYSTEM SHALL automatically attach the
-   automojo-managed labels `automojo/managed=true` and
-   `automojo/spec-name=<spec.name>` so that subsequent reconciles can identify
-   automojo-managed resources.
+   codecraftai-managed labels `ccai/managed=true` and
+   `ccai/spec-name=<spec.name>` so that subsequent reconciles can identify
+   codecraftai-managed resources.
 2. WHEN `apply(...)` is called on a resource that exists but does not carry the
-   automojo-managed label THE SYSTEM SHALL raise `KubernetesConflictError` to
+   codecraftai-managed label THE SYSTEM SHALL raise `KubernetesConflictError` to
    prevent accidental adoption of foreign resources.

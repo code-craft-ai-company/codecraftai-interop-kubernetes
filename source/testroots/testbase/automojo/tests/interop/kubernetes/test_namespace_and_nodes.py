@@ -8,7 +8,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -16,14 +16,14 @@ import unittest
 
 from unittest.mock import MagicMock
 
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesConflictError,
 )
-from automojo.interop.kubernetes.model.nodeinfo import NodeInfo
-from automojo.interop.kubernetes.specs.workloadspecs import NamespaceSpec
-from automojo.interop.kubernetes.workload import MANAGED_LABEL_KEY
+from ccai.interop.kubernetes.model.nodeinfo import NodeInfo
+from ccai.interop.kubernetes.specs.workloadspecs import NamespaceSpec
+from ccai.interop.kubernetes.workload import MANAGED_LABEL_KEY
 
-from automojo.tests.interop.kubernetes.fakeclient import build_fake_client
+from ccai.tests.interop.kubernetes.fakeclient import build_fake_client
 
 
 def _fake_node(*, name, ready, labels):
@@ -67,7 +67,7 @@ class NamespacePrimitiveTests(unittest.TestCase):
         store = {}
 
         def do_read(*, name, **kwargs):
-            from automojo.tests.interop.kubernetes.fakekubernetes import (
+            from ccai.tests.interop.kubernetes.fakekubernetes import (
                 FakeApiException,
             )
             if name not in store:
@@ -83,7 +83,7 @@ class NamespacePrimitiveTests(unittest.TestCase):
             return body
 
         def do_delete(*, name, **kwargs):
-            from automojo.tests.interop.kubernetes.fakekubernetes import (
+            from ccai.tests.interop.kubernetes.fakekubernetes import (
                 FakeApiException,
             )
             if name not in store:

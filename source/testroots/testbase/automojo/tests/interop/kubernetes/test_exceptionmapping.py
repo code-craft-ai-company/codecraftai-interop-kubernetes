@@ -8,14 +8,14 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 import unittest
 
-from automojo.interop.kubernetes.exceptionmapping import reclassify_api_exception
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptionmapping import reclassify_api_exception
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesConflictError,
     KubernetesForbiddenError,
@@ -23,7 +23,7 @@ from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesUnauthorizedError,
 )
 
-from automojo.tests.interop.kubernetes.fakekubernetes import FakeApiException
+from ccai.tests.interop.kubernetes.fakekubernetes import FakeApiException
 
 
 class ExceptionReclassificationTests(unittest.TestCase):

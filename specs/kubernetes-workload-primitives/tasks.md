@@ -29,7 +29,7 @@
 
 - [x] 14. Read-before-create idempotent apply across all primitives.
 
-- [x] 15. Auto-attach `automojo/managed=true` + `automojo/spec-name=<name>`
+- [x] 15. Auto-attach `ccai/managed=true` + `ccai/spec-name=<name>`
   labels on every `apply`.
 
 - [x] 16. Adoption-prevention: raise `KubernetesConflictError` when applying

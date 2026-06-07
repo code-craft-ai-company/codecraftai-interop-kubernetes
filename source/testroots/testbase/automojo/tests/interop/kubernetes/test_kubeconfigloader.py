@@ -9,7 +9,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -17,9 +17,9 @@ import os
 import tempfile
 import unittest
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
-from automojo.interop.kubernetes.kubeconfigloader import KubeConfigLoader
+from ccai.interop.kubernetes.kubeconfigloader import KubeConfigLoader
 
 
 _KUBECONFIG_DICT = {

@@ -3,7 +3,7 @@
 ## Overview
 
 `KubernetesClient` is a thin, opinionated wrapper around the official `kubernetes`
-Python SDK that normalises behaviour to the automojo `Aspects` pattern. It owns
+Python SDK that normalises behaviour to the ccai `Aspects` pattern. It owns
 kubeconfig loading, the active namespace / context, exception reclassification,
 and the health probe. The workload primitives (Job, Deployment, etc.) are delivered
 by the sibling `kubernetes-workload-primitives` spec and operate on the same
@@ -78,7 +78,7 @@ chain for debuggability.
 ## Module Layout
 
 ```
-source/packages/automojo/interop/kubernetes/
+source/packages/ccai/interop/kubernetes/
 ├── __init__.py
 ├── kubernetesclient.py         # KubernetesClient
 ├── kuberneteshealth.py         # KubernetesHealth
@@ -94,9 +94,9 @@ source/packages/automojo/interop/kubernetes/
 
 - `kubernetes-workload-primitives` — Job, Deployment, StatefulSet, PVC, Service,
   Ingress helpers built on top of this client.
-- `automojo-interop-coreweave` — composes this client via a CoreWeave-issued
+- `codecraftai-interop-coreweave` — composes this client via a CoreWeave-issued
   kubeconfig.
-- `automojo-provisioning` `venue-coreweave` — top-level consumer.
+- `codecraftai-provisioning` `venue-coreweave` — top-level consumer.
 
 ---
 

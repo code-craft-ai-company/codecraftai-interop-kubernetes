@@ -10,7 +10,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -18,7 +18,7 @@ import os
 
 from typing import Dict, List, Optional
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
 
 class KubeConfigLoader:

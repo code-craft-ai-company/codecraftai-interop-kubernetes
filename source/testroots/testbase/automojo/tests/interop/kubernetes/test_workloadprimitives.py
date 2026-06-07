@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 import unittest
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesConflictError,
     KubernetesResourceNotFoundError,
 )
-from automojo.interop.kubernetes.specs.workloadspecs import (
+from ccai.interop.kubernetes.specs.workloadspecs import (
     DeploymentSpec,
     IngressSpec,
     JobSpec,
@@ -29,13 +29,13 @@ from automojo.interop.kubernetes.specs.workloadspecs import (
     ServiceSpec,
     StatefulSetSpec,
 )
-from automojo.interop.kubernetes.workload import MANAGED_LABEL_KEY, SPEC_NAME_LABEL_KEY
-from automojo.interop.kubernetes.workload.workloadprimitive import (
+from ccai.interop.kubernetes.workload import MANAGED_LABEL_KEY, SPEC_NAME_LABEL_KEY
+from ccai.interop.kubernetes.workload.workloadprimitive import (
     WorkloadPrimitive,
 )
 
-from automojo.tests.interop.kubernetes.fakeclient import build_fake_client
-from automojo.tests.interop.kubernetes.fakekubernetes import FakeApiException
+from ccai.tests.interop.kubernetes.fakeclient import build_fake_client
+from ccai.tests.interop.kubernetes.fakekubernetes import FakeApiException
 
 
 class JobPrimitiveTests(unittest.TestCase):

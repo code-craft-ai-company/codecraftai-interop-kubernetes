@@ -8,7 +8,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -16,12 +16,12 @@ import unittest
 
 from unittest.mock import MagicMock
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
-from automojo.interop.kubernetes.aspectskubernetes import DEFAULT_KUBERNETES_ASPECTS
-from automojo.interop.kubernetes.kubernetesclient import KubernetesClient
-from automojo.interop.kubernetes.kuberneteshealth import KubernetesHealth
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.aspectskubernetes import DEFAULT_KUBERNETES_ASPECTS
+from ccai.interop.kubernetes.kubernetesclient import KubernetesClient
+from ccai.interop.kubernetes.kuberneteshealth import KubernetesHealth
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesResourceNotFoundError,
 )
 

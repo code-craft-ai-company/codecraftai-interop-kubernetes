@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.model.workloadinfo import PvcInfo
-from automojo.interop.kubernetes.specs.workloadspecs import PvcSpec
-from automojo.interop.kubernetes.workload.jobprimitive import _attr
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.model.workloadinfo import PvcInfo
+from ccai.interop.kubernetes.specs.workloadspecs import PvcSpec
+from ccai.interop.kubernetes.workload.jobprimitive import _attr
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _pvc_info_from_sdk(pvc_object: object) -> PvcInfo:
@@ -72,7 +72,7 @@ class PvcPrimitive(WorkloadPrimitive):
     def apply(self, *, spec: PvcSpec, namespace: Optional[str] = None, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> PvcInfo:
         """
             Create or patch the PVC (read-before-create idempotent apply)
-            with the automojo-managed labels attached.
+            with the codecraftai-managed labels attached.
 
             :param spec: The :class:`PvcSpec` request payload.
             :param namespace: The target namespace.

@@ -10,7 +10,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -65,7 +65,7 @@ class KubernetesConflictError(KubernetesApiError):
     """
         Raised when the API server reports a 409 (resource conflict). Also
         raised by the workload primitives when an ``apply`` would adopt a
-        foreign, non-automojo-managed resource.
+        foreign, non-codecraftai-managed resource.
     """
 
 

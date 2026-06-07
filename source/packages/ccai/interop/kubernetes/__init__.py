@@ -1,8 +1,8 @@
 """
     .. module:: kubernetes
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: The ``automojo-interop-kubernetes`` package — the Kubernetes
-        interop client for the automojo suite.
+    :synopsis: The ``codecraftai-interop-kubernetes`` package — the Kubernetes
+        interop client for the ccai suite.
 
     Transport note
     --------------
@@ -10,26 +10,26 @@
     the correct, supported transport for the Kubernetes API server, so this
     package is deliberately *not* a ``RestClientBase`` codegen package and
     introduces no parallel REST client. All public APIs normalise the SDK's
-    behaviour to the automojo ``Aspects`` pattern — callers control
+    behaviour to the ccai ``Aspects`` pattern — callers control
     timeouts, polling and logging; no ``@retry``-style decorators are used.
 
     .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.kubernetesclient import (
+from ccai.interop.kubernetes.kubernetesclient import (
     KubernetesClient,
     DEFAULT_NAMESPACE,
 )
-from automojo.interop.kubernetes.kuberneteshealth import KubernetesHealth
+from ccai.interop.kubernetes.kuberneteshealth import KubernetesHealth
 
 
 __all__ = [

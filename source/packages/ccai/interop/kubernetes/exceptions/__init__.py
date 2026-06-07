@@ -1,7 +1,7 @@
 """
     .. module:: exceptions
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Exception hierarchy for the ``automojo-interop-kubernetes``
+    :synopsis: Exception hierarchy for the ``codecraftai-interop-kubernetes``
         package. Re-exports the named exception types so callers can import
         them from a single location.
 
@@ -9,11 +9,11 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesConflictError,
     KubernetesForbiddenError,

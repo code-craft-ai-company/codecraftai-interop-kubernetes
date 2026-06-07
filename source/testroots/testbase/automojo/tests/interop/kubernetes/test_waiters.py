@@ -9,7 +9,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -19,18 +19,18 @@ from unittest.mock import MagicMock
 
 from hypothesis import given, settings, strategies
 
-from automojo.interop.kubernetes.aspectskubernetes import AspectsKubernetes
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.aspectskubernetes import AspectsKubernetes
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesJobFailedError,
     KubernetesWaitTimeoutError,
 )
-from automojo.interop.kubernetes.model.workloadinfo import (
+from ccai.interop.kubernetes.model.workloadinfo import (
     DeploymentInfo,
     JobInfo,
     PvcInfo,
 )
 
-from automojo.tests.interop.kubernetes.fakeclient import build_fake_client
+from ccai.tests.interop.kubernetes.fakeclient import build_fake_client
 
 
 def _fast_aspects(*, completion_timeout=5.0):

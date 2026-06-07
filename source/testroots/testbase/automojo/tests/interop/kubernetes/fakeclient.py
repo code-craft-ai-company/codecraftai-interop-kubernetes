@@ -9,13 +9,13 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from unittest.mock import MagicMock
 
-from automojo.tests.interop.kubernetes.fakekubernetes import (
+from ccai.tests.interop.kubernetes.fakekubernetes import (
     FakeApiException,
     FakeNamespacedApi,
 )
@@ -96,7 +96,7 @@ def build_fake_client(*, namespace="default"):
             dict of named :class:`ResourceFacade` objects keyed by resource
             kind.
     """
-    from automojo.interop.kubernetes.kubernetesclient import KubernetesClient
+    from ccai.interop.kubernetes.kubernetesclient import KubernetesClient
 
     client = KubernetesClient(
         kubeconfig_dict={"_fake": True},

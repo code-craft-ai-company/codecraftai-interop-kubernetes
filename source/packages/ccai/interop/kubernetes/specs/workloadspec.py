@@ -6,7 +6,7 @@
 
     The ``kubernetes-workload-primitives`` design names the request payloads
     "SchemaObject subclasses". The canonical ``SchemaObject`` lives in
-    ``automojo-restclient-base``. This package deliberately wraps the
+    ``codecraftai-restclient-base``. This package deliberately wraps the
     official ``kubernetes`` SDK and does not depend on the REST-client
     transport stack (see the AGENTS.md transport note), so a minimal local
     base providing the same required-field-validation contract is used
@@ -17,7 +17,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -25,7 +25,7 @@ import os
 
 from typing import List, Tuple
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
 
 class WorkloadSpec:
