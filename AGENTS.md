@@ -70,9 +70,10 @@ Follow [Coding Standards](usersguide/10-00-coding-standards.rst):
 - Run 'development/setup-environment' to create the virtual environment
 
 # Running Tests
+This package's tests use the `testbase` framework and live under `source/testroots`. Run them with:
 ```
 source <repository-root>/.venv/bin/activate
-.venv/bin/python-env -m unittest discover -s source/tests -p "test_*.py"
+testbase testing run --root source/testroots/testbase --includes=automojo.tests.interop.kubernetes --output=./.output
 ```
 
 # Packaging
