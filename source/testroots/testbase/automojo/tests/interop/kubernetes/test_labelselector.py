@@ -8,7 +8,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -16,7 +16,7 @@ import unittest
 
 from hypothesis import given, strategies
 
-from automojo.interop.kubernetes.workload.labelselector import (
+from ccai.interop.kubernetes.workload.labelselector import (
     compose_label_selector,
     managed_selector,
     merge_selectors,
@@ -73,9 +73,9 @@ class LabelSelectorUnitTests(unittest.TestCase):
 
     def test_managed_selector(self):
         """
-            The managed selector matches automojo-managed resources.
+            The managed selector matches codecraftai-managed resources.
         """
-        self.assertEqual(managed_selector(), "automojo/managed=true")
+        self.assertEqual(managed_selector(), "ccai/managed=true")
         return
 
 

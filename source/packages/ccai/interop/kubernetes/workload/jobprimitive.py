@@ -8,7 +8,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -16,20 +16,20 @@ import os
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesJobFailedError,
 )
-from automojo.interop.kubernetes.model.workloadinfo import JobInfo
-from automojo.interop.kubernetes.specs.workloadspecs import JobSpec
-from automojo.interop.kubernetes.workload.labelselector import (
+from ccai.interop.kubernetes.model.workloadinfo import JobInfo
+from ccai.interop.kubernetes.specs.workloadspecs import JobSpec
+from ccai.interop.kubernetes.workload.labelselector import (
     compose_label_selector,
     merge_selectors,
 )
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _build_container(spec: JobSpec) -> Dict[str, object]:
@@ -137,7 +137,7 @@ class JobPrimitive(WorkloadPrimitive):
     def apply(self, *, spec: JobSpec, namespace: Optional[str] = None, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> JobInfo:
         """
             Create the Job if absent, or patch it if present (read-before-
-            create idempotent apply). The automojo-managed labels are always
+            create idempotent apply). The codecraftai-managed labels are always
             attached. An existing Job lacking the managed label triggers a
             :class:`KubernetesConflictError`.
 

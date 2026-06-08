@@ -10,13 +10,13 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional, Tuple
 
-from automojo.interop.kubernetes.specs.workloadspec import WorkloadSpec
+from ccai.interop.kubernetes.specs.workloadspec import WorkloadSpec
 
 
 class JobSpec(WorkloadSpec):

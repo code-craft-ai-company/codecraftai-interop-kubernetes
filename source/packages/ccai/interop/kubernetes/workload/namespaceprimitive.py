@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.model.workloadinfo import NamespaceInfo
-from automojo.interop.kubernetes.specs.workloadspecs import NamespaceSpec
-from automojo.interop.kubernetes.workload.jobprimitive import _attr
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.model.workloadinfo import NamespaceInfo
+from ccai.interop.kubernetes.specs.workloadspecs import NamespaceSpec
+from ccai.interop.kubernetes.workload.jobprimitive import _attr
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _namespace_info_from_sdk(namespace_object: object) -> NamespaceInfo:
@@ -61,7 +61,7 @@ class NamespacePrimitive(WorkloadPrimitive):
     def apply(self, *, spec: NamespaceSpec, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> NamespaceInfo:
         """
             Create or patch the Namespace (read-before-create idempotent
-            apply) with the automojo-managed labels attached.
+            apply) with the codecraftai-managed labels attached.
 
             :param spec: The :class:`NamespaceSpec` request payload.
             :param aspects: Behaviour parameters for the call.

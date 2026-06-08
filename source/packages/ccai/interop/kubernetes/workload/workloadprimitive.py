@@ -3,7 +3,7 @@
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Provides :class:`WorkloadPrimitive`, the abstract base for the
         typed workload helpers. It owns the cross-cutting machinery shared by
-        every primitive: exception reclassification, automojo-managed label
+        every primitive: exception reclassification, codecraftai-managed label
         discipline, adoption prevention, the idempotent read-before-create
         apply skeleton, and the bounded waiter loop.
 
@@ -11,7 +11,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -21,20 +21,20 @@ import time
 
 from typing import Callable, Dict, Optional, Tuple
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.exceptionmapping import (
+from ccai.interop.kubernetes.exceptionmapping import (
     is_api_exception,
     reclassify_api_exception,
 )
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesConflictError,
     KubernetesResourceNotFoundError,
     KubernetesWaitTimeoutError,
 )
-from automojo.interop.kubernetes.workload import (
+from ccai.interop.kubernetes.workload import (
     MANAGED_LABEL_KEY,
     MANAGED_LABEL_VALUE,
     SPEC_NAME_LABEL_KEY,
@@ -48,7 +48,7 @@ class WorkloadPrimitive:
         Concrete subclasses (``JobPrimitive``, ``DeploymentPrimitive``, ...)
         implement the resource-kind-specific SDK calls. The base supplies the
         cross-cutting behaviour the spec mandates: typed exception
-        reclassification, automojo-managed labelling, foreign-resource
+        reclassification, codecraftai-managed labelling, foreign-resource
         adoption prevention and a bounded ``Aspects``-driven waiter.
 
         :ivar client: The owning :class:`KubernetesClient`.
@@ -84,9 +84,9 @@ class WorkloadPrimitive:
         """
             Compose the label map that an ``apply`` attaches to a resource.
 
-            The automojo-managed labels (``automojo/managed=true`` and
-            ``automojo/spec-name=<spec_name>``) are always present so a
-            later reconcile can identify automojo-managed resources.
+            The codecraftai-managed labels (``ccai/managed=true`` and
+            ``ccai/spec-name=<spec_name>``) are always present so a
+            later reconcile can identify codecraftai-managed resources.
 
             :param spec_name: The name of the spec being applied.
             :param extra: Caller-supplied additional labels.
@@ -104,7 +104,7 @@ class WorkloadPrimitive:
 
     def assert_adoptable(self, *, name: str, existing_labels: Optional[Dict[str, str]]) -> None:
         """
-            Verify an existing resource carries the automojo-managed label
+            Verify an existing resource carries the codecraftai-managed label
             before an ``apply`` patches it, preventing accidental adoption of
             a foreign resource.
 
@@ -123,7 +123,7 @@ class WorkloadPrimitive:
 
         if carries_label is False:
             err_msg_lines = [
-                "Refusing to adopt a resource not managed by automojo."
+                "Refusing to adopt a resource not managed by ccai."
             ]
             err_msg_lines.append("KIND: {}".format(self.kind))
             err_msg_lines.append("NAME: {}".format(name))
@@ -143,7 +143,7 @@ class WorkloadPrimitive:
     def call_sdk(self, operation: Callable, *, description: str) -> object:
         """
             Invoke an SDK operation, reclassifying any ``ApiException`` into
-            the automojo typed exception hierarchy.
+            the ccai typed exception hierarchy.
 
             :param operation: A zero-argument callable performing the SDK
                 call.

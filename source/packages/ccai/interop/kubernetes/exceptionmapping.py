@@ -2,20 +2,20 @@
     .. module:: exceptionmapping
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Provides the :func:`reclassify_api_exception` helper which
-        translates a ``kubernetes`` SDK ``ApiException`` into the automojo
+        translates a ``kubernetes`` SDK ``ApiException`` into the ccai
         typed exception hierarchy.
 
     .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 import os
 
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesConflictError,
     KubernetesForbiddenError,
@@ -36,7 +36,7 @@ def is_api_exception(error: BaseException) -> bool:
     """
         Decide whether ``error`` is a ``kubernetes`` SDK ``ApiException``
         (or a test double that mimics it) and is therefore safe to
-        reclassify into the automojo typed exception hierarchy.
+        reclassify into the ccai typed exception hierarchy.
 
         Anything else — ``SemanticError``, ``TypeError``, ``ValueError`` and
         other programming-defect errors — must NOT be reclassified; it has
@@ -62,7 +62,7 @@ def is_api_exception(error: BaseException) -> bool:
 def reclassify_api_exception(api_exception: Exception) -> KubernetesApiError:
     """
         Translate a ``kubernetes`` SDK ``ApiException`` into the matching
-        automojo typed exception so callers never have to inspect HTTP
+        ccai typed exception so callers never have to inspect HTTP
         status codes.
 
         :param api_exception: The SDK ``ApiException`` instance to translate.

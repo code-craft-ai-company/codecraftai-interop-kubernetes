@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.model.workloadinfo import IngressInfo
-from automojo.interop.kubernetes.specs.workloadspecs import IngressSpec
-from automojo.interop.kubernetes.workload.jobprimitive import _attr
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.model.workloadinfo import IngressInfo
+from ccai.interop.kubernetes.specs.workloadspecs import IngressSpec
+from ccai.interop.kubernetes.workload.jobprimitive import _attr
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _ingress_info_from_sdk(ingress_object: object) -> IngressInfo:
@@ -81,7 +81,7 @@ class IngressPrimitive(WorkloadPrimitive):
     def apply(self, *, spec: IngressSpec, namespace: Optional[str] = None, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> IngressInfo:
         """
             Create or patch the Ingress (read-before-create idempotent
-            apply) with the automojo-managed labels attached.
+            apply) with the codecraftai-managed labels attached.
 
             :param spec: The :class:`IngressSpec` request payload.
             :param namespace: The target namespace.

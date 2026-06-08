@@ -1,6 +1,6 @@
 # Implementation Plan — Kubernetes Client
 
-- [x] 1. Create `automojo.interop.kubernetes` package skeleton.
+- [x] 1. Create `ccai.interop.kubernetes` package skeleton.
 
 - [x] 2. Define exception hierarchy in `kuberneteserrors.py` (KubernetesApiError +
   the four 4xx subclasses).

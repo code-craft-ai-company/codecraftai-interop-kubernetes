@@ -9,7 +9,7 @@ verbs accept `Aspects` and reclassify exceptions via the helper from
 `kubernetes-client`.
 
 Idempotent apply is the central design constraint — it is what makes the apply
-safe to re-run from `automojo-provisioning`. Read-before-create + automojo-managed
+safe to re-run from `codecraftai-provisioning`. Read-before-create + codecraftai-managed
 labels make this robust against partial failures and prevent accidental adoption
 of foreign resources.
 
@@ -126,7 +126,7 @@ class KubernetesWaitTimeoutError(Exception):
 ## Module Layout
 
 ```
-source/packages/automojo/interop/kubernetes/primitives/
+source/packages/ccai/interop/kubernetes/primitives/
 ├── __init__.py
 ├── jobprimitive.py
 ├── deploymentprimitive.py
@@ -144,8 +144,8 @@ Plus specs and info DTOs in `specs/` and `model/` sub-packages.
 ## See Also
 
 - `kubernetes-client` — parent client; exception reclassification; Aspects.
-- `automojo-provisioning` `venue-coreweave` — consumer.
-- `automojo-provisioning` `workload-venue-model` — provides the abstract
+- `codecraftai-provisioning` `venue-coreweave` — consumer.
+- `codecraftai-provisioning` `workload-venue-model` — provides the abstract
   WorkloadVenue surface this primitives layer fulfils underneath.
 
 ---
@@ -156,7 +156,7 @@ Plus specs and info DTOs in `specs/` and `model/` sub-packages.
 - Idempotency tests — apply twice; expect a single create + a single patch with
   identical resulting state; second invocation must report "no change".
 - Adoption-prevention tests — apply against an existing resource lacking
-  `automojo/managed=true` raises `KubernetesConflictError`.
+  `ccai/managed=true` raises `KubernetesConflictError`.
 - Waiter tests — drive scripted state sequences and assert convergence /
   failure-raise / timeout-raise.
 - Spec validation tests — missing-required raises `SemanticError`.

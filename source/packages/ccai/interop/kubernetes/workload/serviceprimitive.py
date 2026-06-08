@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.model.workloadinfo import ServiceInfo
-from automojo.interop.kubernetes.specs.workloadspecs import ServiceSpec
-from automojo.interop.kubernetes.workload.jobprimitive import _attr
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.model.workloadinfo import ServiceInfo
+from ccai.interop.kubernetes.specs.workloadspecs import ServiceSpec
+from ccai.interop.kubernetes.workload.jobprimitive import _attr
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _service_info_from_sdk(service_object: object) -> ServiceInfo:
@@ -72,7 +72,7 @@ class ServicePrimitive(WorkloadPrimitive):
     def apply(self, *, spec: ServiceSpec, namespace: Optional[str] = None, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> ServiceInfo:
         """
             Create or patch the Service (read-before-create idempotent
-            apply) with the automojo-managed labels attached.
+            apply) with the codecraftai-managed labels attached.
 
             :param spec: The :class:`ServiceSpec` request payload.
             :param namespace: The target namespace.

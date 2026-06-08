@@ -3,13 +3,13 @@
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Provides :class:`KubernetesClient`, the top-level interop
         client wrapping the official ``kubernetes`` Python SDK and
-        normalising it to the automojo ``Aspects`` pattern.
+        normalising it to the ccai ``Aspects`` pattern.
 
     .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
@@ -18,19 +18,19 @@ import os
 
 from typing import Dict, Optional
 
-from automojo.errors.exceptions import SemanticError
+from ccai.errors.exceptions import SemanticError
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.exceptionmapping import reclassify_api_exception
-from automojo.interop.kubernetes.exceptions.kuberneteserrors import (
+from ccai.interop.kubernetes.exceptionmapping import reclassify_api_exception
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesResourceNotFoundError,
 )
-from automojo.interop.kubernetes.kubeconfigloader import KubeConfigLoader
-from automojo.interop.kubernetes.kuberneteshealth import KubernetesHealth
+from ccai.interop.kubernetes.kubeconfigloader import KubeConfigLoader
+from ccai.interop.kubernetes.kuberneteshealth import KubernetesHealth
 
 
 DEFAULT_NAMESPACE = "default"
@@ -167,21 +167,21 @@ class KubernetesClient:
 
             :returns: ``None``
         """
-        from automojo.interop.kubernetes.workload.jobprimitive import JobPrimitive
-        from automojo.interop.kubernetes.workload.deploymentprimitive import (
+        from ccai.interop.kubernetes.workload.jobprimitive import JobPrimitive
+        from ccai.interop.kubernetes.workload.deploymentprimitive import (
             DeploymentPrimitive,
         )
-        from automojo.interop.kubernetes.workload.statefulsetprimitive import (
+        from ccai.interop.kubernetes.workload.statefulsetprimitive import (
             StatefulSetPrimitive,
         )
-        from automojo.interop.kubernetes.workload.pvcprimitive import PvcPrimitive
-        from automojo.interop.kubernetes.workload.serviceprimitive import (
+        from ccai.interop.kubernetes.workload.pvcprimitive import PvcPrimitive
+        from ccai.interop.kubernetes.workload.serviceprimitive import (
             ServicePrimitive,
         )
-        from automojo.interop.kubernetes.workload.ingressprimitive import (
+        from ccai.interop.kubernetes.workload.ingressprimitive import (
             IngressPrimitive,
         )
-        from automojo.interop.kubernetes.workload.namespaceprimitive import (
+        from ccai.interop.kubernetes.workload.namespaceprimitive import (
             NamespacePrimitive,
         )
 
@@ -332,7 +332,7 @@ class KubernetesClient:
             :returns: A list of :class:`NodeInfo` DTOs.
             :raises: KubernetesApiError
         """
-        from automojo.interop.kubernetes.model.nodeinfo import NodeInfo
+        from ccai.interop.kubernetes.model.nodeinfo import NodeInfo
 
         logger = logging.getLogger(aspects.logger_name)
         logger.log(aspects.logging_level, "Listing cluster nodes.")

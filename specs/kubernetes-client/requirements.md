@@ -4,12 +4,12 @@
 
 The `kubernetes-client` feature delivers `KubernetesClient`, the top-level interop
 client wrapping the official `kubernetes` Python SDK and normalising it to the
-automojo `Aspects` pattern. It is the foundation that the workload primitives
+ccai `Aspects` pattern. It is the foundation that the workload primitives
 (`kubernetes-workload-primitives`) and downstream WorkloadVenue provisioners
 (CoreWeave, self-hosted K8s) build on.
 
 The client deliberately wraps the official SDK rather than reimplementing the REST
-surface. Every public method translates the SDK's behaviour into automojo
+surface. Every public method translates the SDK's behaviour into ccai
 conventions:
 
 - `Aspects`-controlled timeouts / retries / logging on every call

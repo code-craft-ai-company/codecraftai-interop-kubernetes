@@ -9,13 +9,13 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, Optional
 
-from automojo.interop.kubernetes.workload import (
+from ccai.interop.kubernetes.workload import (
     MANAGED_LABEL_KEY,
     MANAGED_LABEL_VALUE,
 )
@@ -75,10 +75,10 @@ def merge_selectors(first: str, second: str) -> str:
 
 def managed_selector() -> str:
     """
-        Return the equality-based selector matching automojo-managed
+        Return the equality-based selector matching codecraftai-managed
         resources.
 
-        :returns: The ``automojo/managed=true`` selector string.
+        :returns: The ``ccai/managed=true`` selector string.
     """
     selector = "{}={}".format(MANAGED_LABEL_KEY, MANAGED_LABEL_VALUE)
     return selector

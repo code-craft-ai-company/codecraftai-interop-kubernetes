@@ -8,20 +8,20 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
 from typing import Dict, List, Optional
 
-from automojo.interop.kubernetes.aspectskubernetes import (
+from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from automojo.interop.kubernetes.model.workloadinfo import StatefulSetInfo
-from automojo.interop.kubernetes.specs.workloadspecs import StatefulSetSpec
-from automojo.interop.kubernetes.workload.jobprimitive import _attr
-from automojo.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
+from ccai.interop.kubernetes.model.workloadinfo import StatefulSetInfo
+from ccai.interop.kubernetes.specs.workloadspecs import StatefulSetSpec
+from ccai.interop.kubernetes.workload.jobprimitive import _attr
+from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 
 def _statefulset_info_from_sdk(statefulset_object: object) -> StatefulSetInfo:
@@ -69,7 +69,7 @@ class StatefulSetPrimitive(WorkloadPrimitive):
     def apply(self, *, spec: StatefulSetSpec, namespace: Optional[str] = None, aspects: AspectsKubernetes = DEFAULT_KUBERNETES_ASPECTS) -> StatefulSetInfo:
         """
             Create or patch the StatefulSet (read-before-create idempotent
-            apply) with the automojo-managed labels attached.
+            apply) with the codecraftai-managed labels attached.
 
             :param spec: The :class:`StatefulSetSpec` request payload.
             :param namespace: The target namespace.
