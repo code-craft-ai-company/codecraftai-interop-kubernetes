@@ -18,13 +18,11 @@ import os
 
 from typing import Dict, Optional
 
-from ccai.errors.exceptions import SemanticError
-
 from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
     DEFAULT_KUBERNETES_ASPECTS,
 )
-from ccai.interop.kubernetes.exceptionmapping import reclassify_api_exception
+from ccai.interop.kubernetes.exceptionmapping import is_api_exception, reclassify_api_exception
 from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
     KubernetesApiError,
     KubernetesResourceNotFoundError,
@@ -343,6 +341,11 @@ class KubernetesClient:
                 _request_timeout=aspects.timeout_seconds,
             )
         except Exception as list_error:
+            # Only reclassify genuine kubernetes API exceptions; let everything
+            # else (SemanticError, TypeError, programming defects) bubble — a
+            # SemanticError must never be caught/masked.
+            if is_api_exception(list_error) is False:
+                raise
             reclassified = reclassify_api_exception(list_error)
             raise reclassified from list_error
 

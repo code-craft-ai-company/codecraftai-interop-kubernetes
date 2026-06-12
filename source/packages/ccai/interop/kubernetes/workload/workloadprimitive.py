@@ -17,9 +17,10 @@ __credits__ = []
 
 import logging
 import os
-import time
 
 from typing import Callable, Dict, Optional, Tuple
+
+from ccai.waiting import wait_for_it, WaitContext
 
 from ccai.interop.kubernetes.aspectskubernetes import (
     AspectsKubernetes,
@@ -191,18 +192,21 @@ class WorkloadPrimitive:
         """
         logger = self._logger(aspects)
 
-        deadline = time.monotonic() + aspects.completion_timeout
-        last_observed: object = None
+        # The condition poll loop is driven by codecraftai-waiting's wait_for_it,
+        # which owns the deadline/interval cadence and the final-attempt boundary.
+        # The looper preserves this primitive's contract: return the observed
+        # object on success, propagate any exception probe() raises (e.g. a
+        # failed workload), and raise KubernetesWaitTimeoutError on timeout.
+        observed_box = {"value": None}
 
-        while True:
+        def condition_looper(wctx: WaitContext) -> bool:
             done, failed, observed = probe()
-            last_observed = observed
+            observed_box["value"] = observed
 
             if done is True:
-                return observed
+                return True
 
-            now = time.monotonic()
-            if now >= deadline:
+            if wctx.final_attempt:
                 err_msg_lines = ["Timed out waiting for a workload condition."]
                 err_msg_lines.append("KIND: {}".format(self.kind))
                 err_msg_lines.append("CONDITION: {}".format(description))
@@ -212,7 +216,7 @@ class WorkloadPrimitive:
                 err_msg = os.linesep.join(err_msg_lines)
                 raise KubernetesWaitTimeoutError(
                     err_msg,
-                    observed=last_observed,
+                    observed=observed,
                 ) from None
 
             logger.log(
@@ -222,7 +226,18 @@ class WorkloadPrimitive:
                 description,
                 aspects.poll_interval,
             )
-            time.sleep(aspects.poll_interval)
+
+            return False
+
+        wait_for_it(
+            condition_looper,
+            what_for=description,
+            interval=aspects.poll_interval,
+            timeout=aspects.completion_timeout,
+        )
+
+        rtnval = observed_box["value"]
+        return rtnval
 
     def get_existing_or_none(
         self,
