@@ -213,7 +213,7 @@ requests = "^2.32.4"
 type = "git"
 url = "https://github.com/automationmojo/codecraftai-restclient-kubernetes.git"
 reference = "main"
-resolved_reference = "203b830709698abaa53ecdba4a1190291b7b6562"
+resolved_reference = "f845e3bbfc9920d7f0e51c396b8f7bf46971017c"
 
 [[package]]
 name = "codecraftai-waiting"
