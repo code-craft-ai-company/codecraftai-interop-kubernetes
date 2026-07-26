@@ -14,7 +14,8 @@ __credits__ = []
 
 import unittest
 
-from hypothesis import given, strategies
+from ccai.testbase.properties import given
+from ccai.testbase.properties import strategies as st
 
 from ccai.interop.kubernetes.workload.labelselector import (
     compose_label_selector,

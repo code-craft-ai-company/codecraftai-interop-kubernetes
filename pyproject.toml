@@ -26,7 +26,7 @@ codecraftai-interfaces = { git = "https://github.com/automationmojo/codecraftai-
 codecraftai-waiting = { git = "https://github.com/automationmojo/codecraftai-waiting.git", branch = "main" }
 
 [tool.poetry.group.dev.dependencies]
-hypothesis = ">=6.0.0"
+codecraftai-testbase = { git = "https://github.com/automationmojo/codecraftai-testbase.git", branch = "main" }
 pytest = ">=8.0.0"
 
 [build-system]

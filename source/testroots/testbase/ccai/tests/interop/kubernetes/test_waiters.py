@@ -17,7 +17,8 @@ import unittest
 
 from unittest.mock import MagicMock
 
-from hypothesis import given, settings, strategies
+from ccai.testbase.properties import given
+from ccai.testbase.properties import strategies as st
 
 from ccai.interop.kubernetes.aspectskubernetes import AspectsKubernetes
 from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
@@ -168,8 +169,8 @@ class WaitLoopConvergencePropertyTests(unittest.TestCase):
         Hypothesis property test over the bounded wait-loop convergence.
     """
 
-    @settings(deadline=None, max_examples=40)
     @given(
+    constraints={"max_examples": 40},
         iterations_until_done=strategies.integers(min_value=1, max_value=20),
     )
     def test_loop_converges_after_n_probes(self, iterations_until_done):
