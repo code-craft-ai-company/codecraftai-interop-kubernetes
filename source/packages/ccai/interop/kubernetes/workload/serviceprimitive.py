@@ -111,7 +111,7 @@ class ServicePrimitive(WorkloadPrimitive):
             getter=lambda: self.client.core_v1_api.read_namespaced_service(
                 name=spec.name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -121,7 +121,7 @@ class ServicePrimitive(WorkloadPrimitive):
                 lambda: self.client.core_v1_api.create_namespaced_service(
                     namespace=resolved_namespace,
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create Service",
             )
@@ -137,7 +137,7 @@ class ServicePrimitive(WorkloadPrimitive):
                 name=spec.name,
                 namespace=resolved_namespace,
                 body=body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch Service",
         )
@@ -163,7 +163,7 @@ class ServicePrimitive(WorkloadPrimitive):
             getter=lambda: self.client.core_v1_api.delete_namespaced_service(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
         return
@@ -185,7 +185,7 @@ class ServicePrimitive(WorkloadPrimitive):
             lambda: self.client.core_v1_api.read_namespaced_service(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read Service",
         )
@@ -213,7 +213,7 @@ class ServicePrimitive(WorkloadPrimitive):
             lambda: self.client.core_v1_api.list_namespaced_service(
                 namespace=resolved_namespace,
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list Services",
         )

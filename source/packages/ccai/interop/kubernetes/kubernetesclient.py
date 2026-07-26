@@ -2,8 +2,8 @@
     .. module:: kubernetesclient
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Provides :class:`KubernetesClient`, the top-level interop
-        client wrapping the official ``kubernetes`` Python SDK and
-        normalising it to the ccai ``Aspects`` pattern.
+        client over the pure-Python ``codecraftai-restclient-kubernetes``
+        transport, normalised to the ccai ``Aspects`` pattern.
 
     .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -38,18 +38,23 @@ class KubernetesClient:
     """
         Top-level Kubernetes interop client.
 
-        The client wraps the official ``kubernetes`` Python SDK. It owns
-        kubeconfig loading, the active context and namespace, exception
-        reclassification, the health probe, and the workload primitive
-        sub-clients (``jobs``, ``deployments``, ``statefulsets``, ``pvcs``,
-        ``services``, ``ingresses``).
+        The client is built on the pure-Python
+        :class:`ccai.restclient.kubernetes.kubernetesrestclient.KubernetesRestClient`
+        -- the Kubernetes API is plain REST, so no vendored SDK is needed.
+        It owns kubeconfig loading, the active context and namespace,
+        exception reclassification, the health probe, and the workload
+        primitive sub-clients (``jobs``, ``deployments``, ``statefulsets``,
+        ``pvcs``, ``services``, ``ingresses``).
 
-        :ivar core_v1_api: The SDK ``CoreV1Api`` bound to the active client.
-        :ivar apps_v1_api: The SDK ``AppsV1Api`` bound to the active client.
-        :ivar batch_v1_api: The SDK ``BatchV1Api`` bound to the active client.
-        :ivar networking_v1_api: The SDK ``NetworkingV1Api`` bound to the
-            active client.
-        :ivar version_api: The SDK ``VersionApi`` bound to the active client.
+        The ``*_api`` attribute names are retained from the SDK era so the
+        workload primitives and any consumer code keep their call sites; each
+        now holds the corresponding REST api group.
+
+        :ivar core_v1_api: The ``core_v1`` api group.
+        :ivar apps_v1_api: The ``apps_v1`` api group.
+        :ivar batch_v1_api: The ``batch_v1`` api group.
+        :ivar networking_v1_api: The ``networking_v1`` api group.
+        :ivar version_api: The ``version`` api group.
     """
 
     def __init__(
@@ -68,17 +73,17 @@ class KubernetesClient:
             Exactly one of ``kubeconfig_path``, ``kubeconfig_dict`` or
             ``in_cluster`` must be supplied. The ``api_client`` parameter is
             a test seam — when supplied the kubeconfig source is still
-            validated but the supplied ``ApiClient`` is used directly so
-            unit tests can inject a fake SDK client.
+            validated but the supplied client is used directly so unit
+            tests can inject a fake transport.
 
             :param kubeconfig_path: Filesystem path of a kubeconfig file.
             :param kubeconfig_dict: An in-memory kubeconfig dict.
             :param in_cluster: When ``True`` use the in-cluster context.
             :param context: The named context to activate.
             :param namespace: The default namespace for subsequent calls.
-            :param api_client: Optional pre-built SDK ``ApiClient`` (test
-                seam). When ``None`` the client is built from the resolved
-                kubeconfig.
+            :param api_client: Optional pre-built
+                :class:`KubernetesRestClient` (test seam). When ``None`` the
+                client is built from the resolved kubeconfig.
 
             :returns: ``None``
             :raises: SemanticError
@@ -137,25 +142,23 @@ class KubernetesClient:
     @property
     def api_client(self) -> object:
         """
-            The underlying SDK ``ApiClient``.
+            The underlying REST client.
 
-            :returns: The active ``kubernetes.client.ApiClient``.
+            :returns: The active :class:`KubernetesRestClient`.
         """
         return self._api_client
 
     def _bind_apis(self) -> None:
         """
-            Construct the SDK Api facades against the active ``ApiClient``.
+            Bind the api groups carried by the active REST client.
 
             :returns: ``None``
         """
-        from kubernetes import client as kubernetes_client
-
-        self.core_v1_api = kubernetes_client.CoreV1Api(self._api_client)
-        self.apps_v1_api = kubernetes_client.AppsV1Api(self._api_client)
-        self.batch_v1_api = kubernetes_client.BatchV1Api(self._api_client)
-        self.networking_v1_api = kubernetes_client.NetworkingV1Api(self._api_client)
-        self.version_api = kubernetes_client.VersionApi(self._api_client)
+        self.core_v1_api = self._api_client.core_v1
+        self.apps_v1_api = self._api_client.apps_v1
+        self.batch_v1_api = self._api_client.batch_v1
+        self.networking_v1_api = self._api_client.networking_v1
+        self.version_api = self._api_client.version
         return
 
     def _bind_primitives(self) -> None:
@@ -282,7 +285,7 @@ class KubernetesClient:
 
         try:
             version_info = self.version_api.get_code(
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             )
             version = getattr(version_info, "git_version", "")
             if version is None:
@@ -298,7 +301,7 @@ class KubernetesClient:
 
         try:
             node_list = self.core_v1_api.list_node(
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             )
             items = getattr(node_list, "items", None)
             if items is not None:
@@ -338,7 +341,7 @@ class KubernetesClient:
         try:
             node_list = self.core_v1_api.list_node(
                 label_selector=label_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             )
         except Exception as list_error:
             # Only reclassify genuine kubernetes API exceptions; let everything

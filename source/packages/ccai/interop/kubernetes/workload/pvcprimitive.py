@@ -107,7 +107,7 @@ class PvcPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.core_v1_api.read_namespaced_persistent_volume_claim(
                 name=spec.name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -117,7 +117,7 @@ class PvcPrimitive(WorkloadPrimitive):
                 lambda: self.client.core_v1_api.create_namespaced_persistent_volume_claim(
                     namespace=resolved_namespace,
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create PVC",
             )
@@ -136,7 +136,7 @@ class PvcPrimitive(WorkloadPrimitive):
                 name=spec.name,
                 namespace=resolved_namespace,
                 body=patch_body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch PVC",
         )
@@ -162,7 +162,7 @@ class PvcPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.core_v1_api.delete_namespaced_persistent_volume_claim(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
         return
@@ -184,7 +184,7 @@ class PvcPrimitive(WorkloadPrimitive):
             lambda: self.client.core_v1_api.read_namespaced_persistent_volume_claim(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read PVC",
         )
@@ -212,7 +212,7 @@ class PvcPrimitive(WorkloadPrimitive):
             lambda: self.client.core_v1_api.list_namespaced_persistent_volume_claim(
                 namespace=resolved_namespace,
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list PVCs",
         )

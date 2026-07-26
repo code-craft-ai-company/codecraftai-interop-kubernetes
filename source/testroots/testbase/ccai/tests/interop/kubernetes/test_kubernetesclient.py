@@ -243,8 +243,10 @@ class AspectsForwardingTests(unittest.TestCase):
         client.health(aspects=DEFAULT_KUBERNETES_ASPECTS)
 
         call_kwargs = client.version_api.get_code.call_args.kwargs
+        # The REST transport names this 'timeout_seconds'; the SDK called it
+        # '_request_timeout'.
         self.assertEqual(
-            call_kwargs["_request_timeout"],
+            call_kwargs["timeout_seconds"],
             DEFAULT_KUBERNETES_ASPECTS.timeout_seconds,
         )
         return

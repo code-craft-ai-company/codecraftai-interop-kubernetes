@@ -128,7 +128,7 @@ class IngressPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.networking_v1_api.read_namespaced_ingress(
                 name=spec.name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -138,7 +138,7 @@ class IngressPrimitive(WorkloadPrimitive):
                 lambda: self.client.networking_v1_api.create_namespaced_ingress(
                     namespace=resolved_namespace,
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create Ingress",
             )
@@ -154,7 +154,7 @@ class IngressPrimitive(WorkloadPrimitive):
                 name=spec.name,
                 namespace=resolved_namespace,
                 body=body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch Ingress",
         )
@@ -180,7 +180,7 @@ class IngressPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.networking_v1_api.delete_namespaced_ingress(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
         return
@@ -202,7 +202,7 @@ class IngressPrimitive(WorkloadPrimitive):
             lambda: self.client.networking_v1_api.read_namespaced_ingress(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read Ingress",
         )
@@ -230,7 +230,7 @@ class IngressPrimitive(WorkloadPrimitive):
             lambda: self.client.networking_v1_api.list_namespaced_ingress(
                 namespace=resolved_namespace,
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list Ingresses",
         )

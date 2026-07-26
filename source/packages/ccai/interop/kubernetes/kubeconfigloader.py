@@ -3,8 +3,7 @@
     :platform: Darwin, Linux, Unix, Windows
     :synopsis: Provides :class:`KubeConfigLoader`, the helper that resolves a
         kubeconfig from a path, an in-memory dict, or an in-cluster
-        service-account context into a configured ``kubernetes`` SDK
-        ``ApiClient``.
+        service-account context into a :class:`KubernetesRestClient`.
 
     .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
@@ -20,11 +19,18 @@ from typing import Dict, List, Optional
 
 from ccai.errors.exceptions import SemanticError
 
+from ccai.restclient.kubernetes.kubeconfigresolver import (
+    KubeConfigResolver
+)
+from ccai.restclient.kubernetes.kubernetesrestclient import (
+    KubernetesRestClient
+)
+
 
 class KubeConfigLoader:
     """
-        Resolves a kubeconfig source into a configured ``kubernetes`` SDK
-        ``ApiClient``.
+        Resolves a kubeconfig source into a
+        :class:`ccai.restclient.kubernetes.kubernetesrestclient.KubernetesRestClient`.
 
         Exactly one of ``kubeconfig_path``, ``kubeconfig_dict`` or
         ``in_cluster`` must be supplied. The loader keeps the resolved
@@ -134,31 +140,23 @@ class KubeConfigLoader:
     def build_api_client(self) -> object:
         """
             Resolve the kubeconfig source and build a configured
-            ``kubernetes`` SDK ``ApiClient``.
+            :class:`KubernetesRestClient`.
 
-            :returns: A configured ``kubernetes.client.ApiClient`` instance.
+            The name is retained from when this returned an SDK
+            ``ApiClient``; the returned object now carries the api groups
+            directly (``core_v1``, ``apps_v1``, ``batch_v1``,
+            ``networking_v1``, ``version``).
+
+            :returns: A configured :class:`KubernetesRestClient`.
         """
-        from kubernetes import client as kubernetes_client
-        from kubernetes import config as kubernetes_config
-
-        if self.in_cluster is True:
-            kubernetes_config.load_incluster_config()
-            api_client = kubernetes_client.ApiClient()
-            return api_client
-
-        if self.kubeconfig_dict is not None:
-            kubernetes_config.load_kube_config_from_dict(
-                config_dict=self.kubeconfig_dict,
-                context=self.context,
-            )
-            api_client = kubernetes_client.ApiClient()
-            return api_client
-
-        kubernetes_config.load_kube_config(
-            config_file=self.kubeconfig_path,
+        resolver = KubeConfigResolver(
+            kubeconfig_path=self.kubeconfig_path,
+            kubeconfig_dict=self.kubeconfig_dict,
+            in_cluster=self.in_cluster,
             context=self.context,
         )
-        api_client = kubernetes_client.ApiClient()
+        resolution = resolver.resolve()
+        api_client = KubernetesRestClient(resolution=resolution)
         return api_client
 
 

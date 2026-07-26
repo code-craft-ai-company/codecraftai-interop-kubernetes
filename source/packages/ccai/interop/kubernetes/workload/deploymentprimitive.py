@@ -123,7 +123,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.apps_v1_api.read_namespaced_deployment(
                 name=spec.name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -133,7 +133,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
                 lambda: self.client.apps_v1_api.create_namespaced_deployment(
                     namespace=resolved_namespace,
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create Deployment",
             )
@@ -149,7 +149,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
                 name=spec.name,
                 namespace=resolved_namespace,
                 body=body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch Deployment",
         )
@@ -175,7 +175,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.apps_v1_api.delete_namespaced_deployment(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
         return
@@ -197,7 +197,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
             lambda: self.client.apps_v1_api.read_namespaced_deployment(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read Deployment",
         )
@@ -225,7 +225,7 @@ class DeploymentPrimitive(WorkloadPrimitive):
             lambda: self.client.apps_v1_api.list_namespaced_deployment(
                 namespace=resolved_namespace,
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list Deployments",
         )

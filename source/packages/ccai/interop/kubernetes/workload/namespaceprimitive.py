@@ -83,7 +83,7 @@ class NamespacePrimitive(WorkloadPrimitive):
         existing = self.get_existing_or_none(
             getter=lambda: self.client.core_v1_api.read_namespace(
                 name=spec.name,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -92,7 +92,7 @@ class NamespacePrimitive(WorkloadPrimitive):
             created = self.call_sdk(
                 lambda: self.client.core_v1_api.create_namespace(
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create Namespace",
             )
@@ -107,7 +107,7 @@ class NamespacePrimitive(WorkloadPrimitive):
             lambda: self.client.core_v1_api.patch_namespace(
                 name=spec.name,
                 body=body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch Namespace",
         )
@@ -130,7 +130,7 @@ class NamespacePrimitive(WorkloadPrimitive):
         self.get_existing_or_none(
             getter=lambda: self.client.core_v1_api.delete_namespace(
                 name=name,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
         return
@@ -148,7 +148,7 @@ class NamespacePrimitive(WorkloadPrimitive):
         namespace_object = self.call_sdk(
             lambda: self.client.core_v1_api.read_namespace(
                 name=name,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read Namespace",
         )
@@ -172,7 +172,7 @@ class NamespacePrimitive(WorkloadPrimitive):
         namespace_list = self.call_sdk(
             lambda: self.client.core_v1_api.list_namespace(
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list Namespaces",
         )

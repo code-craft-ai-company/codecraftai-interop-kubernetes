@@ -183,7 +183,7 @@ class JobPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.batch_v1_api.read_namespaced_job(
                 name=spec.name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -193,7 +193,7 @@ class JobPrimitive(WorkloadPrimitive):
                 lambda: self.client.batch_v1_api.create_namespaced_job(
                     namespace=resolved_namespace,
                     body=body,
-                    _request_timeout=aspects.timeout_seconds,
+                    timeout_seconds=aspects.timeout_seconds,
                 ),
                 description="create Job",
             )
@@ -209,7 +209,7 @@ class JobPrimitive(WorkloadPrimitive):
                 name=spec.name,
                 namespace=resolved_namespace,
                 body=body,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="patch Job",
         )
@@ -236,7 +236,7 @@ class JobPrimitive(WorkloadPrimitive):
             getter=lambda: self.client.batch_v1_api.delete_namespaced_job(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
         )
 
@@ -262,7 +262,7 @@ class JobPrimitive(WorkloadPrimitive):
             lambda: self.client.batch_v1_api.read_namespaced_job(
                 name=name,
                 namespace=resolved_namespace,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="read Job",
         )
@@ -290,7 +290,7 @@ class JobPrimitive(WorkloadPrimitive):
             lambda: self.client.batch_v1_api.list_namespaced_job(
                 namespace=resolved_namespace,
                 label_selector=effective_selector,
-                _request_timeout=aspects.timeout_seconds,
+                timeout_seconds=aspects.timeout_seconds,
             ),
             description="list Jobs",
         )
