@@ -337,11 +337,14 @@ groups = ["main"]
 files = []
 develop = false
 
+[package.dependencies]
+codecraftai-errors = {git = "https://github.com/automationmojo/codecraftai-errors.git", branch = "main"}
+
 [package.source]
 type = "git"
 url = "https://github.com/automationmojo/codecraftai-interfaces.git"
 reference = "main"
-resolved_reference = "d2a82b380316a13fd43430226bd2a0785332e6a7"
+resolved_reference = "6e332363c9047647f57d14d327b7e015a2bb2b5f"
 
 [[package]]
 name = "codecraftai-waiting"
