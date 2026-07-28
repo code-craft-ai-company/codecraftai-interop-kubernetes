@@ -8,7 +8,7 @@ stability, reusability and scalability over quick fixes and fast delivery.
 
 # Rules
 - Look in '<repository>/specs' for specification files
-- Look in '<repository>/usersguide' for standards and conventions
+- Look in '<repository>/userguide' for standards and conventions
 - Look in '<repository>/prompts' for pre-built prompts
 - Files inside the .venv folder should not be modified
 - Place test results inside the .output folder
@@ -52,13 +52,13 @@ Downstream consumers: `codecraftai-interop-coreweave`, `codecraftai-interop-runp
 required. Property tests (where used) run inside the same harness via `hypothesis`.
 
 # Code Naming Conventions
-Follow [Code Craft AI Python Naming Conventions](usersguide/10-02-naming-conventions.rst).
+Follow [Code Craft AI Python Naming Conventions](userguide/10-02-naming-conventions.rst).
 
 # Code Structure
-Follow [Code Craft AI Python Code Structure Standards](usersguide/10-01-code-organization.rst).
+Follow [Code Craft AI Python Code Structure Standards](userguide/10-01-code-organization.rst).
 
 # Coding Standards
-Follow [Coding Standards](usersguide/10-00-coding-standards.rst):
+Follow [Coding Standards](userguide/10-00-coding-standards.rst):
 - Sphinx-style docstrings
 - Explicit returns
 - Named-only parameters
