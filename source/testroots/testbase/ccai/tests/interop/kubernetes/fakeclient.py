@@ -15,7 +15,7 @@ __credits__ = []
 
 from unittest.mock import MagicMock
 
-from ccai.tests.interop.kubernetes.fakekubernetes import (
+from .fakekubernetes import (
     FakeApiException,
     FakeNamespacedApi,
 )

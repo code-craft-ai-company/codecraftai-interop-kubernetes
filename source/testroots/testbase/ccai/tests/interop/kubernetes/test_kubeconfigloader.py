@@ -13,9 +13,10 @@ __copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 
 
+from ccai import testbase
+
 import os
 import tempfile
-import unittest
 
 from ccai.errors.exceptions import SemanticError
 
@@ -45,112 +46,120 @@ _KUBECONFIG_DICT = {
 }
 
 
-class SourceValidationTests(unittest.TestCase):
+# ----------------------------------------------------------------------
+# SourceValidationTests
+# ----------------------------------------------------------------------
+
+"""
+    Source validation — zero and multiple sources raise SemanticError.
+"""
+
+def test_no_source_raises():
     """
-        Source validation — zero and multiple sources raise SemanticError.
+        Supplying no source raises SemanticError.
     """
+    with testbase.raises(SemanticError):
+        KubeConfigLoader()
+    return
 
-    def test_no_source_raises(self):
-        """
-            Supplying no source raises SemanticError.
-        """
-        with self.assertRaises(SemanticError):
-            KubeConfigLoader()
-        return
-
-    def test_multiple_sources_raise(self):
-        """
-            Supplying multiple sources raises SemanticError.
-        """
-        with self.assertRaises(SemanticError):
-            KubeConfigLoader(
-                kubeconfig_path="/tmp/x",
-                kubeconfig_dict=_KUBECONFIG_DICT,
-            )
-        return
-
-
-class DictSourceTests(unittest.TestCase):
+def test_multiple_sources_raise():
     """
-        In-memory dict source — context enumeration and api client build.
+        Supplying multiple sources raises SemanticError.
     """
+    with testbase.raises(SemanticError):
+        KubeConfigLoader(
+            kubeconfig_path="/tmp/x",
+            kubeconfig_dict=_KUBECONFIG_DICT,
+        )
+    return
 
-    def test_available_contexts_from_dict(self):
-        """
-            A dict-source loader enumerates its contexts.
-        """
-        loader = KubeConfigLoader(kubeconfig_dict=_KUBECONFIG_DICT)
+
+# ----------------------------------------------------------------------
+# DictSourceTests
+# ----------------------------------------------------------------------
+
+"""
+    In-memory dict source — context enumeration and api client build.
+"""
+
+def test_available_contexts_from_dict():
+    """
+        A dict-source loader enumerates its contexts.
+    """
+    loader = KubeConfigLoader(kubeconfig_dict=_KUBECONFIG_DICT)
+    contexts = loader.available_contexts()
+    testbase.assert_equal(sorted(contexts), ["ctx-alpha", "ctx-beta"])
+    return
+
+def test_build_api_client_from_dict():
+    """
+        A dict-source loader builds a usable ApiClient.
+    """
+    loader = KubeConfigLoader(kubeconfig_dict=_KUBECONFIG_DICT)
+    api_client = loader.build_api_client()
+    testbase.assert_true(api_client is not None)
+    return
+
+
+# ----------------------------------------------------------------------
+# PathSourceTests
+# ----------------------------------------------------------------------
+
+"""
+    Kubeconfig path source — context enumeration and api client build.
+"""
+
+def test_available_contexts_from_path():
+    """
+        A path-source loader enumerates its contexts from disk.
+    """
+    import yaml
+
+    handle = tempfile.NamedTemporaryFile(
+        mode="w", suffix=".yaml", delete=False
+    )
+    try:
+        yaml.safe_dump(_KUBECONFIG_DICT, handle)
+        handle.close()
+        loader = KubeConfigLoader(kubeconfig_path=handle.name)
         contexts = loader.available_contexts()
-        self.assertEqual(sorted(contexts), ["ctx-alpha", "ctx-beta"])
-        return
+        testbase.assert_equal(sorted(contexts), ["ctx-alpha", "ctx-beta"])
+    finally:
+        os.unlink(handle.name)
+    return
 
-    def test_build_api_client_from_dict(self):
-        """
-            A dict-source loader builds a usable ApiClient.
-        """
-        loader = KubeConfigLoader(kubeconfig_dict=_KUBECONFIG_DICT)
+def test_build_api_client_from_path():
+    """
+        A path-source loader builds a usable ApiClient from disk.
+    """
+    import yaml
+
+    handle = tempfile.NamedTemporaryFile(
+        mode="w", suffix=".yaml", delete=False
+    )
+    try:
+        yaml.safe_dump(_KUBECONFIG_DICT, handle)
+        handle.close()
+        loader = KubeConfigLoader(kubeconfig_path=handle.name)
         api_client = loader.build_api_client()
-        self.assertIsNotNone(api_client)
-        return
+        testbase.assert_true(api_client is not None)
+    finally:
+        os.unlink(handle.name)
+    return
 
 
-class PathSourceTests(unittest.TestCase):
+# ----------------------------------------------------------------------
+# InClusterSourceTests
+# ----------------------------------------------------------------------
+
+"""
+    In-cluster source — context enumeration yields an empty list.
+"""
+
+def test_in_cluster_has_no_contexts():
     """
-        Kubeconfig path source — context enumeration and api client build.
+        An in-cluster loader reports no contexts.
     """
-
-    def test_available_contexts_from_path(self):
-        """
-            A path-source loader enumerates its contexts from disk.
-        """
-        import yaml
-
-        handle = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        )
-        try:
-            yaml.safe_dump(_KUBECONFIG_DICT, handle)
-            handle.close()
-            loader = KubeConfigLoader(kubeconfig_path=handle.name)
-            contexts = loader.available_contexts()
-            self.assertEqual(sorted(contexts), ["ctx-alpha", "ctx-beta"])
-        finally:
-            os.unlink(handle.name)
-        return
-
-    def test_build_api_client_from_path(self):
-        """
-            A path-source loader builds a usable ApiClient from disk.
-        """
-        import yaml
-
-        handle = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        )
-        try:
-            yaml.safe_dump(_KUBECONFIG_DICT, handle)
-            handle.close()
-            loader = KubeConfigLoader(kubeconfig_path=handle.name)
-            api_client = loader.build_api_client()
-            self.assertIsNotNone(api_client)
-        finally:
-            os.unlink(handle.name)
-        return
-
-
-class InClusterSourceTests(unittest.TestCase):
-    """
-        In-cluster source — context enumeration yields an empty list.
-    """
-
-    def test_in_cluster_has_no_contexts(self):
-        """
-            An in-cluster loader reports no contexts.
-        """
-        loader = KubeConfigLoader(in_cluster=True)
-        self.assertEqual(loader.available_contexts(), [])
-        return
-
-
-if __name__ == "__main__":
-    unittest.main()
+    loader = KubeConfigLoader(in_cluster=True)
+    testbase.assert_equal(loader.available_contexts(), [])
+    return
