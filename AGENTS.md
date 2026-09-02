@@ -37,7 +37,7 @@ The package provides:
   kubeconfig dict, or an in-cluster service-account context.
 - A workload primitives layer — typed helpers for `Job`, `Deployment`, `StatefulSet`,
   `PersistentVolumeClaim`, `Service`, and `Ingress`. Each helper exposes `apply`,
-  `delete`, `get`, `list`, and waiter methods using `codecraftai-waiting`.
+  `delete`, `get`, `list`, and waiter methods using `codecraftai-foundations`.
 - A consistent return-type shape: every method returns a typed result object (not a
   raw dict). DTOs live under `model/`.
 - A consistent failure shape: API errors are reclassified into named exceptions

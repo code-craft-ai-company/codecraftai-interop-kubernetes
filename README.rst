@@ -12,7 +12,7 @@ Highlights
 ==========
 
 - ``KubernetesClient`` — the top-level client, constructed from a kubeconfig path, a kubeconfig dict, or an in-cluster service-account context.
-- A workload primitives layer — typed helpers for ``Job``, ``Deployment``, ``StatefulSet``, ``PersistentVolumeClaim``, ``Service``, and ``Ingress``, each exposing ``apply``, ``delete``, ``get``, ``list``, and waiter methods built on ``codecraftai-waiting``.
+- A workload primitives layer — typed helpers for ``Job``, ``Deployment``, ``StatefulSet``, ``PersistentVolumeClaim``, ``Service``, and ``Ingress``, each exposing ``apply``, ``delete``, ``get``, ``list``, and waiter methods built on ``codecraftai-foundations``.
 - Consistent typed return objects — every method returns a typed result object (DTOs under ``model/``), not a raw dict.
 - Consistent failure shape — API errors are reclassified into named exceptions (``KubernetesResourceNotFoundError``, ``KubernetesConflictError``, etc.) so callers do not decode ``ApiException`` status codes.
 - All public APIs normalize the underlying client to the ccai ``Aspects`` pattern — callers control timeouts, retries, and logging; no behaviour-modifying decorators.
