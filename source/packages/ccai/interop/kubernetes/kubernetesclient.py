@@ -23,10 +23,7 @@ from ccai.interop.kubernetes.aspectskubernetes import (
     DEFAULT_KUBERNETES_ASPECTS,
 )
 from ccai.interop.kubernetes.exceptionmapping import is_api_exception, reclassify_api_exception
-from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
-    KubernetesApiError,
-    KubernetesResourceNotFoundError,
-)
+from ccai.interop.kubernetes.exceptions.kuberneteserrors import KubernetesResourceNotFoundError
 from ccai.interop.kubernetes.kubeconfigloader import KubeConfigLoader
 from ccai.interop.kubernetes.kuberneteshealth import KubernetesHealth
 

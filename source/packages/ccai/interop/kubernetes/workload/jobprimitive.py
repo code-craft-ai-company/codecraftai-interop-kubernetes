@@ -25,10 +25,6 @@ from ccai.interop.kubernetes.exceptions.kuberneteserrors import (
 )
 from ccai.interop.kubernetes.model.workloadinfo import JobInfo
 from ccai.interop.kubernetes.specs.workloadspecs import JobSpec
-from ccai.interop.kubernetes.workload.labelselector import (
-    compose_label_selector,
-    merge_selectors,
-)
 from ccai.interop.kubernetes.workload.workloadprimitive import WorkloadPrimitive
 
 

@@ -79,8 +79,8 @@ class KubeConfigLoader:
         if len(sources_supplied) == 0:
             err_msg_lines = [
                 "A kubeconfig source must be supplied.",
-                "Provide exactly one of 'kubeconfig_path', "
-                "'kubeconfig_dict' or 'in_cluster=True'.",
+                ("Provide exactly one of 'kubeconfig_path', "
+                 "'kubeconfig_dict' or 'in_cluster=True'."),
             ]
             err_msg = os.linesep.join(err_msg_lines)
             raise SemanticError(err_msg) from None
