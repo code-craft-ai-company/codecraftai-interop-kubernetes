@@ -137,3 +137,6 @@ dmypy.json
 
 # uv can resolve this project too, but poetry.lock is the lockfile of record.
 uv.lock
+
+# Test runner output
+.output/
